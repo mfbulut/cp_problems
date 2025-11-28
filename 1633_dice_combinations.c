@@ -3,9 +3,7 @@
 #pragma GCC optimize("O3")
 typedef char* string;
 typedef int i32;
-typedef unsigned int u32;
 typedef long long i64;
-typedef unsigned long long u64;
 #define range(i,y,x) for(i64 i=(y);(i<=(x));(i)++)
 #define min(a, b) ((a) > (b) ? (b) : (a))
 

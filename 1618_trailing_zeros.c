@@ -4,14 +4,18 @@ typedef int i32;
 typedef long long i64;
 typedef char* string;
 #define range(i,y,x) for(i64 i=(y);(i<(x));(i)++)
-#define min(a, b) ((a) > (b) ? (b) : (a))
-#define max(a,b) (((a)>(b))?(a):(b))
 
 int main() {
     i64 n;
     scanf("%lld", &n);
 
-    range(i, 0, 10) {
-        printf("%lld ", i);
+    i64 res = 0;
+
+    while(n >= 5) {
+        i64 new = n / 5;
+        res += new;
+        n = new;
     }
+
+    printf("%lld", res);
 }
