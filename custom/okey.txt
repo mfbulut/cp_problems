@@ -1,0 +1,33 @@
+Okey 101 – Maximum Score Problem
+
+You are given a collection of Okey 101 tiles
+
+Each tile has two attributes:
+    Color: an integer from 1 to 4
+    Number: an integer from 1 to 13
+
+You may form groups of tiles using the following rules:
+
+1. Set (Same-Number Group)
+    Contains 3 or 4 tiles
+    All tiles must have the same number
+    All tiles must have distinct colors
+
+2. Run (Consecutive Group)
+    Contains at least 3 tiles
+    All tiles must have the same color
+    The numbers must form a strictly increasing consecutive sequence
+
+You may form any number of valid groups
+Each tile can be used in at most one group
+You do not need to use all tiles
+Your score is the sum of the numbers on all tiles used in groups
+
+Your task is to compute the maximum possible total score you can achieve by forming valid groups
+
+Input Format
+    The first input line has an integer n: the number of tiles.
+    After this, there are n lines, each of which has two integers color and number:
+
+Output Format
+    Print one integer: the maximum achievable score
