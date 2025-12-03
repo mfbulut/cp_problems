@@ -1,6 +1,6 @@
 ### 101 Okey Maximum Score
 
-You are given $n$ tiles, each defined by a color and a number.
+You are given $n$ tiles, each defined by a color (integer 1 - 4) and a number(1 - 13).
 
 You can form groups of tiles. Each tile may belong to at most one group. There are two types of valid groups:
 
@@ -16,3 +16,21 @@ Your task is to compute the maximum achievable score.
 
 **Output**
 - Print one integer: the maximum achievable score.
+
+### Examples
+Input:
+```
+7
+1 3
+1 4
+1 5
+2 3
+3 3
+4 3
+2 4
+```
+Output:
+```
+22
+```
+
