@@ -33,8 +33,9 @@ int main() {
 
     i64 result = 0;
 
-    while(fscanf(fp, "%s", str) == 1){
-        len = strlen(str);
+    while(fgets(str, 255, fp)){
+        i64 len = strlen(str);
+        if (str[len - 1] == '\n') len--;
 
         i64 mult = 100000000000; // 10^11
         i64 last_id = 0;

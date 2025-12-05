@@ -11,8 +11,9 @@ int main() {
     char str[255];
     i64 result = 0;
 
-    while(fscanf(fp, "%s", str) == 1){
+    while(fgets(str, 255, fp)){
         i64 len = strlen(str);
+        if (str[len - 1] == '\n') len--;
 
         int first = -1;
         int first_id = -1;

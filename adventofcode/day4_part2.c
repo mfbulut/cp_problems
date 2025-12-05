@@ -10,19 +10,22 @@ i64 size_x = 0;
 i64 size_y = 0;
 
 i64 get(i64 x, i64 y) {
-    if (x < 0 || y < 0 || x >= size_x) {
-        return 0;
+    // y < size_y is actually not necessary since grid is zero initized
+    if (0 <= x && x < size_x && 0 <= y && y < size_y) {
+        return grid[x + y * size_x];
     }
 
-    return grid[x + y * size_x];
+    return 0;
 }
 
 int main() {
     FILE *fp = fopen("adventofcode/day4.txt", "r");
 
     char str[255];
-    while(fscanf(fp, "%s", str) == 1){
+    while(fgets(str, 255, fp)){
         size_x = strlen(str);
+
+        if (str[size_x - 1] == '\n') size_x--;
 
         range(i, 0, size_x) {
             if(str[i] == '@') grid[i + size_y * size_x] = 1;
@@ -42,7 +45,7 @@ int main() {
                 if(sum < 4) {
                     result += 1;
                     grid[x + y * size_x] = 0;
-                    goto start; // wish c had labeled break
+                    goto start; // wish C had labeled break
                 }
             }
         }
