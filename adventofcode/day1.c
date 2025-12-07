@@ -15,12 +15,11 @@ int main() {
 
             while(current > 99) {
                 current -= 100;
-            }
-
+            } 
         } else {
             current -= value;
 
-             while(current < 0) {
+            while(current < 0) {
                 current += 100;
             }
         }
