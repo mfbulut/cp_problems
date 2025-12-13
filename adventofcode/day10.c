@@ -1,111 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef long long i64;
-#define range(i,a,b) for(i64 i=(a);(i<(b));(i)++)
+typedef unsigned long long u64;
+#define range(i,a,b) for(u64 i=(a);(i<(b));(i)++)
+u64 min(u64 a, u64 b) { return a > b ? b : a; }
 int toggleBit(int N, int K) { return (N ^ (1 << K)); }
 
-i64 goal = 0;
-i64 count = 0;
-i64 buttons[10000] = {0};
+u64 goal = 0;
+u64 count = 0;
+u64 buttons[10000] = {0};
 
-i64 find_buttons() {
-    range(i, 0, count) {
-        if(buttons[i] == goal) return 1;
+// Code from advent of compiler optimization series
+u64 countSetBits(u64 n)
+{
+    u64 count = 0;
+    while (n) {
+        n &= (n - 1);
+        count++;
     }
+    return count;
+}
+
+u64 find_buttons() {
+    u64 best = 10000;
     
-    range(i, 0, count) {
-        range(j, 0, count) {
-            if((buttons[i] ^ buttons[j]) == goal) return 2;
-        }
-    }
+    u64 total = 1 << count;
     
-    range(i, 0, count) {
-        range(j, 0, count) {
-            range(k, 0, count) {
-                if((buttons[i] ^ buttons[j] ^ buttons[k]) == goal) return 3;
+    for (u64 mask = 1; mask < total; mask++) {
+        u64 res = 0;
+        
+        for (u64 i = 0; i < count; i++) {
+            if (mask & (1 << i)) {
+                res ^= buttons[i];
             }
         }
-    }
-    
-    range(i, 0, count) {
-        range(j, 0, count) {
-            range(k, 0, count) {
-                range(l, 0, count) {
-                    if((buttons[i] ^ buttons[j] ^ buttons[k] ^ buttons[l]) == goal) return 4;
-                }
-            }
+        
+        if(res == goal) {
+            best = min(best, countSetBits(mask));
         }
     }
     
-    range(i, 0, count) {
-        range(j, 0, count) {
-            range(k, 0, count) {
-                range(l, 0, count) {
-                    range(m, 0, count) {
-                        if((buttons[i] ^ buttons[j] ^ buttons[k] ^ buttons[l] ^ buttons[m]) == goal) return 5;
-                    }
-                }
-            }
-        }
-    }
-    
-    range(i, 0, count) {
-        range(j, 0, count) {
-            range(k, 0, count) {
-                range(l, 0, count) {
-                    range(m, 0, count) {
-                        range(n, 0, count) {
-                            if((buttons[i] ^ buttons[j] ^ buttons[k] ^ buttons[l] ^ buttons[m] ^ buttons[n]) == goal) return 6;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    range(i, 0, count) {
-        range(j, 0, count) {
-            range(k, 0, count) {
-                range(l, 0, count) {
-                    range(m, 0, count) {
-                        range(n, 0, count) {
-                            range(o, 0, count) {
-                                if((buttons[i] ^ buttons[j] ^ buttons[k] ^ buttons[l] ^ buttons[m] ^ buttons[n] ^ buttons[o]) == goal) return 7;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    range(i, 0, count) {
-        range(j, 0, count) {
-            range(k, 0, count) {
-                range(l, 0, count) {
-                    range(m, 0, count) {
-                        range(n, 0, count) {
-                            range(o, 0, count) {
-                                range(p, 0, count) {
-                                    if((buttons[i] ^ buttons[j] ^ buttons[k] ^ buttons[l] ^ buttons[m] ^ buttons[n] ^ buttons[o] ^ buttons[p]) == goal) return 8;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    return -1;
+    return best;
 }
 
 
-i64 sum = 0;
+u64 sum = 0;
 
 int main() {
     FILE *fp = fopen("adventofcode/day10.txt", "r");
@@ -115,14 +54,14 @@ int main() {
     count = 0;
     range(i, 0, 10000) buttons[i] = 0;
     
-    i64 bit = 0;
+    u64 bit = 0;
     char c = 0;
     while (fscanf(fp, "%c", &c) == 1) {        
         if(c == '\n') break;
         else if(c == '.') bit++;
         else if(c == '#')  goal = toggleBit(goal, bit++);
         else if(c == '(') {
-            i64 num;
+            u64 num;
             while (fscanf(fp, "%lld", &num) == 1) {
                 buttons[count] = toggleBit(buttons[count], num);
                 fscanf(fp, ",");
@@ -130,6 +69,7 @@ int main() {
             count++;
         }
     }
+    
     if(goal == 0) {
         printf("Sum %lld\n", sum);
         return 0;
