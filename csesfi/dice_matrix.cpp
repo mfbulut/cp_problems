@@ -1,0 +1,94 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+#define int long long int
+#define endl "\n"
+const int MOD = 1e9 + 7;
+const int INF = 1e18;
+
+template<typename A, typename B> ostream& operator<<(ostream &os, const pair<A, B> &p) { return os << '(' << p.first << ", " << p.second << ')'; }
+template<typename T_container, typename T = typename enable_if<!is_same<T_container, string>::value, typename T_container::value_type>::type> ostream& operator<<(ostream &os, const T_container &v) { os << '{'; string sep; for (const T &x : v) os << sep << x, sep = ", "; return os << '}'; }
+void dbg_out() { cerr << endl; }
+template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr << ' ' << H; dbg_out(T...); }
+#ifdef LOCAL
+#define dbg(...) cerr << "(" << #__VA_ARGS__ << "):", dbg_out(__VA_ARGS__);
+#else
+#define dbg(...)
+#endif
+
+int input() { int num; cin >> num; return num; }
+#define fori(n) for (int i = 0; i < n; ++i)
+#define forj(n) for (int j = 0; j < n; ++j)
+
+vector<vector<int>> mult_mat(vector<vector<int>>& m1, vector<vector<int>>& m2) {
+    int r1 = m1.size();
+    int c1 = m1[0].size();
+    int r2 = m2.size();
+    int c2 = m2[0].size();
+
+   	vector<vector<int>> res(r1, vector<int>(c2, 0));
+	
+    if (c1 != r2) {
+        cout << "Invalid Input" << endl;
+        exit(EXIT_FAILURE);
+    }
+  
+    for (int i = 0; i < r1; i++) {
+        for (int j = 0; j < c2; j++) {
+            for (int k = 0; k < c1; k++) {
+               	res[i][j] = (res[i][j] + m1[i][k] * m2[k][j]) % MOD;
+                
+            }
+        }
+    }
+    
+    return res;
+}
+
+vector<vector<int>> imat;
+
+vector<vector<int>> fast_pow(vector<vector<int>>& mat, int n) {
+	if(n == 0) {
+	    return imat;
+	}
+
+	vector<vector<int>> res = fast_pow(mat, n / 2);
+	res = mult_mat(res, res);
+	
+	if(n & 1) {
+		res = mult_mat(res, mat);	
+	}
+
+	return res;
+}
+
+signed main() {
+	#ifdef LOCAL
+	freopen("input.txt", "r", stdin);
+	#endif
+
+	int n = input();
+
+	// Idenity matrix
+   	imat = vector<vector<int>>(6, vector<int>(6));
+   	fori(6) imat[i][i] = 1;
+
+   	vector<vector<int>> mat = {
+   		{0,1,0,0,0,0},
+   		{0,0,1,0,0,0},
+   		{0,0,0,1,0,0},
+   		{0,0,0,0,1,0},
+   		{0,0,0,0,0,1},
+ 		{1,1,1,1,1,1},
+   	};
+
+   	fori(6) dbg(mat[i]);
+
+	mat = fast_pow(mat, n);
+   	vector<vector<int>> start = {{1}, {1}, {2}, {4}, {8}, {16}};
+	mat = mult_mat(mat, start);	
+
+   	dbg(mat);
+   	cout << mat[0][0] << endl;
+}
