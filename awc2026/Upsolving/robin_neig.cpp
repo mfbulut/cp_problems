@@ -38,7 +38,6 @@ void dfs(int cur, int par) {
 
     for (auto nei : adj[cur]) {
         if (nei == par) continue;
-     
         dp[cur][1] += dp[nei][0];
     }
 
@@ -51,7 +50,7 @@ signed main() {
     #endif
 
     int n = input();
-    
+
     values = vector<int>(n);
     adj = vector<vector<int>>(n);
     dp = vector<vector<int>>(n, vector<int>(2));
@@ -68,8 +67,8 @@ signed main() {
     }
 
     dfs(0, -1);
-    
+
     dbg(dp)
-    
+
     cout << max(dp[0][0], dp[0][1]) << endl;
 }

@@ -1,76 +1,47 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
-
-#define int long long
-#define endl '\n'
-#pragma GCC optimize("O3")
 using namespace std;
 
-#define fori(n) for (int i = 0; i < (n); ++i)
-#define forj(n) for (int j = 0; j < (n); ++j)
-#define fork(n) for (int k = 0; k < (n); ++k)
+#ifdef LOCAL
+#include "debug.h"
+#else
+#define dbg(...)
+#endif
 
-signed main() {
+#define ll long long int
+#define fori(a, b) for(ll i = (a); i < (b); ++i)
+#define forj(a, b) for(ll j = (a); j < (b); ++j)
+#define fork(a, b) for(ll k = (a); k < (b); ++k)
+
+int main() {
     #ifdef LOCAL
     freopen("input.txt", "r", stdin);
     #endif
 
-    int n; cin >> n;
-    vector<int> nums(n);
-    vector<int> indexed(n);
-    fori(n) cin >> nums[i];
-    fori(n) indexed[i] = i;
-    sort(indexed.begin(), indexed.end(), [&](int i, int j) { return nums[i] < nums[j]; });
+    ll n; cin >> n;
+    vector<ll> a(n + 2);
+    vector<ll> b(n + 2);
 
-    vector<bool> dp(n);
+    fori(0, n) cin >> a[i];
+    fori(0, n) cin >> b[i];
 
-    int total = 0;
-    int count = 1;
+    dbg(a, b);
 
-    fori(n) {
-        int cur = indexed[i];
-        int next = cur + 1;
-        int prev = cur - 1;
+    int res = 0;
 
-        if(next < n  && !dp[next]) count += 1;
-        if(prev >= 0 && !dp[prev]) count += 1;
+    fori(0, n) {
+        ll t1 = a[i] + b[i + 1] + b[i + 2];
+        ll t2 = a[i] + a[i + 1] + a[i + 2];
 
-        total += (count - 1);
+        ll t3 = b[i] + b[i + 1] + a[i + 2];
+        ll t4 = b[i] + b[i + 1] + b[i + 2];
 
-        if(next < n  && dp[next]) count -= 1;
-        if(prev >= 0 && dp[prev]) count -= 1;
-
-        dp[cur] = true;
+        if(max(t1, t2) > max(t3, t4)) {
+            res += a[i];
+        } else {
+            res += b[i];
+        }
     }
 
-    cout << total << endl;
+    cout << res << "\n";
 }
-
-
-// nums: 6 5 2 3 7 1 4
-// indexed: 5,2,3,6,1,0,4
-
-// counts: 3,4,4,5,2,2,4
-// indexed counts: 2,4,5,4,4,3,2
-
-//                     -----  +  -
-// set: {5}            01234 (5) 6
-
-//                     --  +  -- + -
-// set: {2,5}          01 (2) 34 5 6
-
-//                     -- +  +  - + -
-// set: {2,3,5}        01 2 (3) 4 5 6
-
-//                     -- ++ - +  +
-// set: {2,3,5,6}      01 23 4 5 (6)
-
-//                     -  +  ++ - ++
-// set: {1,2,3,5,6}    0 (1) 23 4 56
-
-//                      +  +++ - ++
-// set: {0,1,2,3,5,6}  (0) 123 4 56
-
-//                     ++++  +  ++
-// set: {0,1,2,3,5,6}  0123 (4) 56
