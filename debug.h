@@ -2,8 +2,8 @@ template<typename A, typename B> ostream& operator<<(ostream &os, const pair<A, 
 template<typename T_container, typename T = typename enable_if<!is_same<T_container, string>::value, typename T_container::value_type>::type> ostream& operator<<(ostream &os, const T_container &v) { os << '{'; string sep; for (const T &x : v) os << sep << x, sep = ", "; return os << '}'; }
 
 template <typename T>
-void dbg_out(const char* name, T&& value) { cerr << name << ": " << value << "\n\n";}
-
+// void dbg_out(const char* name, T&& value) { cerr << name << ": " << value << "\n\n";}
+void dbg_out(const char* name, T&& value) { cerr << name << ": " << value << "\n";}
 template <typename Head, typename... Tail>
 void dbg_out(const char* names, Head&& head, Tail&&... tail) {
     const char* comma = strchr(names, ',');

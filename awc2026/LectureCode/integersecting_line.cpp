@@ -22,45 +22,44 @@ int input() { int num; cin >> num; return num; }
 #define fori(n) for (int i = 0; i < n; ++i)
 #define forj(n) for (int j = 0; j < n; ++j)
 
-
 signed main() {
     #ifdef LOCAL
 	freopen("input.txt", "r", stdin);
 	#endif
 
 	int size_y = input();
-	int size_x = input(); 
+	int size_x = input();
 
 	int x1 = input();
 	int y1 = input();
-	
-	int x2 = input(); 
-	int y2 = input(); 
+
+	int x2 = input();
+	int y2 = input();
 
 	int l1_x = x2 - x1;
 	int l1_y = y2 - y1;
-	
+
 	forj(size_y) {
 		fori(size_x) {
 			int real_j = (size_y - j - 1);
-			
+
 			if(i < min(x1, x2) || real_j < min(y1, y2) || i > max(x1, x2) || real_j > max(y1, y2)) {
 				cout << ".";
 				continue;
 			}
-				
+
 			int l2_x = i - x1;
 			int l2_y = real_j - y1;
 
 			int cross = l1_x * l2_y - l1_y * l2_x;
-			
+
 			if(cross) {
 				cout << ".";
 			} else {
 				cout << "#";
-			}			
+			}
 		}
-		
+
 		cout << endl;
 	}
 }

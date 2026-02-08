@@ -37,11 +37,11 @@ signed main() {
 	}
 
 	long double res = 0;
-	
+
 	for(int i = 0; i < n; ++i) {
 		for(int j = i + 1; j < n; ++j) {
 			int sum = 0;
-			
+
 			int a = arr[i];
 			int b = arr[j];
 

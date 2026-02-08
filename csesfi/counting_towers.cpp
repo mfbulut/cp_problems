@@ -22,22 +22,22 @@ signed main() {
     #endif
 
     int t; cin >> t;
-    vector<int> dp_1(MAX_N);
-    vector<int> dp_2(MAX_N);
+    vector<int> dp_flat(MAX_N);
+    vector<int> dp_split(MAX_N);
 
-    dp_1[1] = 1;
-    dp_2[1] = 1;
+    dp_flat[1] = 1;
+    dp_split[1] = 1;
 
     fori(2, MAX_N) {
-        int last_flat  = dp_1[i - 1];
-        int last_split = dp_2[i - 1];
+        int last_flat  = dp_flat[i - 1];
+        int last_split = dp_split[i - 1];
 
-        dp_1[i] = (dp_1[i] + ((2 * last_flat) % MOD + (1 * last_split) % MOD) % MOD) % MOD;
-        dp_2[i] = (dp_2[i] + ((1 * last_flat) % MOD + (4 * last_split) % MOD) % MOD) % MOD;
+        dp_flat[i] = (dp_flat[i] + ((2 * last_flat) % MOD + (1 * last_split) % MOD) % MOD) % MOD;
+        dp_split[i] = (dp_split[i] + ((1 * last_flat) % MOD + (4 * last_split) % MOD) % MOD) % MOD;
     }
 
     while(t--) {
         int n; cin >> n;
-        cout << (dp_1[n] + dp_2[n]) % MOD << endl;
+        cout << (dp_flat[n] + dp_split[n]) % MOD << endl;
     }
 }
